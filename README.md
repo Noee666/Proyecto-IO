@@ -1,10 +1,5 @@
 # Práctica de Java I/O
 
-La práctica tiene **un solo punto de entrada**: `GeneradorReporteIncidencias`.
-Las actividades guiadas se concentran en métodos estáticos de `UtilidadesIO`, por
-lo que no hay un `main` por cada ejercicio.
-
-Ejecutar desde la raíz del proyecto (requiere Java 11 o superior):
 
 ```bash
 javac -d bin src/UtilidadesIO.java src/GeneradorReporteIncidencias.java

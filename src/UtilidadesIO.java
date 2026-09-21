@@ -15,7 +15,7 @@ import java.util.Locale;
 public final class UtilidadesIO {
     private static final Path MENSAJE = Path.of("datos", "mensaje.txt");
     private UtilidadesIO() {
-        // Evita instanciar una clase de utilería.
+        throw new UnsupportedOperationException("Esta clase no puede ser instanciada");
     }
 
     public static void copiarBytes(Path origen, Path destino) throws IOException {
@@ -96,7 +96,7 @@ public final class UtilidadesIO {
         System.out.println("Directorio temporal: " + Files.createTempDirectory("dsi-"));
     }
 
-    /** Ejecuta una actividad guiada o el reporte integrador según el argumento recibido. */
+    /** Ejecuta una actividad guiada o el reporte según el argumento recibido. */
     public static void ejecutar(String[] args) {
         try {
             if (args.length == 0) { mostrarUso(); return; }
@@ -181,17 +181,16 @@ public final class UtilidadesIO {
         }
     }
 
-    private static final class Incidencia {
-        private final String id, descripcion, prioridad, lineaOriginal;
-        private Incidencia(String id, String descripcion, String prioridad, String lineaOriginal) {
-            this.id = id; this.descripcion = descripcion; this.prioridad = prioridad; this.lineaOriginal = lineaOriginal;
-        }
+
+
+
+    private record Incidencia(String id, String descripcion, String prioridad, String lineaOriginal) {
         private static Incidencia desde(String linea) throws IOException {
-            String[] campos = linea.split("\\|", -1);
-            if (campos.length != 3 || campos[0].trim().isEmpty() || campos[1].trim().isEmpty() || campos[2].trim().isEmpty()) {
-                throw new IOException("Registro de incidencia inválido: " + linea);
+                String[] campos = linea.split("\\|", -1);
+                if (campos.length != 3 || campos[0].trim().isEmpty() || campos[1].trim().isEmpty() || campos[2].trim().isEmpty()) {
+                    throw new IOException("Registro de incidencia inválido: " + linea);
+                }
+                return new Incidencia(campos[0].trim(), campos[1].trim(), campos[2].trim().toUpperCase(Locale.ROOT), linea);
             }
-            return new Incidencia(campos[0].trim(), campos[1].trim(), campos[2].trim().toUpperCase(Locale.ROOT), linea);
         }
-    }
 }
